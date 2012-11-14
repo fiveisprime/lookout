@@ -1,6 +1,6 @@
-# Lookout
+# Lookout [![Build Status](https://secure.travis-ci.org/fiveisprime/lookout.png?branch=master)](https://travis-ci.org/fiveisprime/lookout)
 
-Watch objects for changes.
+Watch JavaScript objects for changes using a callback.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
