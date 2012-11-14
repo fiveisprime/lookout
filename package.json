@@ -1,0 +1,39 @@
+{
+  "name": "lookout",
+  "title": "Lookout",
+  "description": "Watch objects for changes.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/fiveisprime/lookout",
+  "author": {
+    "name": "Matt Hernandez",
+    "email": "matt@eventargs.com",
+    "url": "http://eventargs.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/fiveisprime/lookout.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fiveisprime/lookout/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/fiveisprime/lookout/blob/master/LICENSE-MIT"
+    },
+    {
+      "type": "GPL",
+      "url": "https://github.com/fiveisprime/lookout/blob/master/LICENSE-GPL"
+    }
+  ],
+  "keywords": [],
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "scripts": {
+    "test": "grunt qunit --verbose"
+  },
+  "devDependencies": {
+    "grunt": "~0.3.15"
+  }
+}
