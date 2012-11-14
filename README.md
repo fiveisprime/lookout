@@ -1,6 +1,6 @@
 # Lookout
 
-Subscribe to objects to see when they change.
+Watch objects for changes.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
@@ -10,11 +10,15 @@ Download the [production version][min] or the [development version][max].
 
 In your web page:
 
-```html
-<script src="dist/lookout.min.js"></script>
-<script>
-</script>
-```
+
+    <script src="dist/lookout.min.js"></script>
+    <script>
+      var obj = { name: 'something' };
+      lookout(obj, function() {
+        console.log('Something just changed');
+      });
+    </script>
+
 
 ## Documentation
 _(Coming soon)_
@@ -26,7 +30,7 @@ _(Coming soon)_
 _(Nothing yet)_
 
 ## License
-Copyright (c) 2012 Matt Hernandez  
+Copyright (c) 2012 Matt Hernandez
 Licensed under the MIT, GPL licenses.
 
 ## Contributing
