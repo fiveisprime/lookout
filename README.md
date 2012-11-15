@@ -1,6 +1,6 @@
 # Lookout [![Build Status](https://secure.travis-ci.org/fiveisprime/lookout.png?branch=master)](https://travis-ci.org/fiveisprime/lookout)
 
-Watch JavaScript objects for changes using a callback.
+Watch JavaScript objects for property changes.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
@@ -21,7 +21,7 @@ In your web page:
 
 
 ## Documentation
-_(Coming soon)_
+Generated documentation is available at `./dist/docs/index.html`. This documentation is generated using [docco-husky](https://github.com/mbrevoort/docco-husky) and my be regenerated using `$ docco-husky src/*` (run `$ npm install` first).
 
 ## Examples
 _(Coming soon)_
