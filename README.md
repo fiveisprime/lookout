@@ -32,7 +32,7 @@ Generated documentation is available at `./dist/docs/index.html`. This documenta
 _(Coming soon)_
 
 ## Release History
-_(Nothing yet)_
+* 2012/11/15 - v0.1.0 - Initial release.
 
 ## License
 Copyright (c) 2012 Matt Hernandez
