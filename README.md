@@ -42,13 +42,13 @@ object that changed:
       });
     </script>
 
-The change function also passes the name of the property that changed, the old value and the new value:
+The change function also passes the name of the property that changed, the old value, and the new value:
 
     <script>
       var myObject = { id: 100, name: 'my object' };
       
       lookout(myObject, function(prop, oldValue, newValue) {
-        console.log(prop + ' just changed from ' + oldValue + ' to ' + newValue);
+        console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
       });
     </script>
 
