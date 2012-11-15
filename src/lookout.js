@@ -28,7 +28,8 @@
       , getter = function() { return newValue; }
       , setter = function(value) {
           oldValue = newValue;
-          callback.call(obj, prop, oldValue, newValue, value);
+          newValue = value;
+          callback.call(obj, prop, oldValue, newValue);
         };
       
       if (delete obj[prop]) {

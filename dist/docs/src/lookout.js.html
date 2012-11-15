@@ -8,7 +8,8 @@
       <span class="p">,</span> <span class="nx">getter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">newValue</span><span class="p">;</span> <span class="p">}</span>
       <span class="p">,</span> <span class="nx">setter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
           <span class="nx">oldValue</span> <span class="o">=</span> <span class="nx">newValue</span><span class="p">;</span>
-          <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">oldValue</span><span class="p">,</span> <span class="nx">newValue</span><span class="p">,</span> <span class="nx">value</span><span class="p">);</span>
+          <span class="nx">newValue</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+          <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">oldValue</span><span class="p">,</span> <span class="nx">newValue</span><span class="p">);</span>
         <span class="p">};</span>
       
       <span class="k">if</span> <span class="p">(</span><span class="k">delete</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">prop</span><span class="p">])</span> <span class="p">{</span>

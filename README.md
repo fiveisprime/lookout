@@ -10,7 +10,6 @@ Download the [production version][min] or the [development version][max].
 
 In your web page:
 
-
     <script src="dist/lookout.min.js"></script>
     <script>
       var something = { name: 'something' };
@@ -29,7 +28,29 @@ In your web page:
 Generated documentation is available at `./dist/docs/index.html`. This documentation is generated using [docco-husky](https://github.com/mbrevoort/docco-husky) and my be regenerated using `$ docco-husky src/*` (run `$ npm install` first).
 
 ## Examples
-_(Coming soon)_
+Lookout allows you to subscribe to change notifications on an object for things like validation and ensures that `this` is the
+object that changed:
+
+    <script>
+      var myObject = { id: 100, name: 'my object' };
+      
+      lookout(myObject, 'name', function() {
+        // this is the object that just changed.
+        if (this.name.length === 0) {
+          alert('Invalid name value!');
+        }
+      });
+    </script>
+
+The change function also passes the name of the property that changed, the old value and the new value:
+
+    <script>
+      var myObject = { id: 100, name: 'my object' };
+      
+      lookout(myObject, function(prop, oldValue, newValue) {
+        console.log(prop + ' just changed from ' + oldValue + ' to ' + newValue);
+      });
+    </script>
 
 ## Release History
 * 2012/11/15 - v0.1.0 - Initial release.
