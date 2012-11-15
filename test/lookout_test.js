@@ -24,13 +24,19 @@
 
   module('Initialization');
 
-  test('initializes and is available', 4, function() {
+  test('initializes and is available', 8, function() {
     
     ok(window.lookout, 'lookout should be available');
     ok(window.disregard, 'disregard should be available');
 
     equal(window.lookout instanceof Function, true, 'lookout should be exposed as a function');
     equal(window.disregard instanceof Function, true, 'disregard should be exposed as a function');
+    
+    var obj = {};
+    ok(window.lookout(obj, function() { }), 'lookout call with just an object and callback should not throw');
+    ok(window.lookout(obj, '', function() { }), 'lookout call with object, string, callback should not throw');
+    ok(window.lookout(obj, [''], function() { }), 'lookout call with object, array, callback should not throw');
+    ok(window.disregard(obj), 'disregard call should not throw');
     
   });
   
@@ -42,15 +48,34 @@
     }
   });
   
-  test('events', 1, function() {
+  test('lookout all properties', 1, function() {
     var self = this;
     
-    // change a property and verify that the callback is raised.
     window.lookout(self.obj, function() {
-      ok(self.obj, 'callback should be called');
+      ok(self.obj, 'callback should be called for all properties');
     });
     
-    this.obj.name = 'test object gonna test';
+    this.obj.name = 'test all properties';
+  });
+  
+  test('lookout single property', 1, function() {
+    var self = this;
+    
+    window.lookout(self.obj, 'name', function() {
+      ok(self.obj, 'callback should be called for a single property');
+    });
+    
+    this.obj.name = 'test single property';
+  });
+  
+  test('lookout array of properties', 1, function() {
+    var self = this;
+    
+    window.lookout(self.obj, ['name'], function() {
+      ok(self.obj, 'callback should be called for an array of properties');
+    });
+    
+    this.obj.name = 'test array of properties';
   });
 
 }());

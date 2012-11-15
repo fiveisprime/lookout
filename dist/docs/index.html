@@ -1,10 +1,10 @@
 <!DOCTYPE html><html><head><title>README</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="./docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="./index.html" class="source"><span class="file_name">README</span></a><a href="./src/lookout.js.html" class="source "><span class="base_path">src / </span><span class="file_name">lookout.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"></th><th class="code"></th></tr></thead><tbody><tr id="section"><td class="docs"><h1><a href="https://github.com/fiveisprime/lookout">lookout
 </a></h1><p>Watch objects for changes.</p><h3>Version</h3><p>0.1.0</p><h3>Author</h3><p><span class="gravatar"><img src="http://www.gravatar.com/avatar/1a1ecb880527b1fccad00224317c5cc6"/><span>Matt Hernandez&lt;matt@eventargs.com&gt;</span></span></p><h3>Repository</h3><p>git - git://github.com/fiveisprime/lookout.git</p><h3>Dependencies </h3><ul></ul><p><h3>Stats</h3><pre class="code_stats">
-http://cloc.sourceforge.net v 1.55  T=0.5 s (2.0 files/s, 212.0 lines/s)
+http://cloc.sourceforge.net v 1.55  T=0.5 s (2.0 files/s, 262.0 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Javascript                       1             16             35             55
+Javascript                       1             27             33             71
 -------------------------------------------------------------------------------
 </pre></p></td><td id="content" class="code"><h1>Lookout <a href="https://travis-ci.org/fiveisprime/lookout"><img src="https://secure.travis-ci.org/fiveisprime/lookout.png?branch=master" alt="Build Status" title="" /></a></h1>
 
@@ -18,10 +18,15 @@ Javascript                       1             16             35             55
 
 <pre><code>&lt;script src="dist/lookout.min.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-  var obj = { name: 'something' };
-  lookout(obj, function() {
+  var something = { name: 'something' };
+
+  // Watch the object's properties using lookout.
+  lookout(something, function() {
     console.log('Something just changed');
   });
+
+  // Unwatch the object's properties using disregard.
+  disregard(something);
 &lt;/script&gt;
 </code></pre>
 

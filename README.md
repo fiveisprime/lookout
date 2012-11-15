@@ -13,10 +13,15 @@ In your web page:
 
     <script src="dist/lookout.min.js"></script>
     <script>
-      var obj = { name: 'something' };
-      lookout(obj, function() {
+      var something = { name: 'something' };
+      
+      // Watch the object's properties using lookout.
+      lookout(something, function() {
         console.log('Something just changed');
       });
+      
+      // Unwatch the object's properties using disregard.
+      disregard(something);
     </script>
 
 

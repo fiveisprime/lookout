@@ -22,9 +22,9 @@
       , newValue = oldValue
       , getter = function() { return newValue; }
       , setter = function(value) {
-        oldValue = newValue;
-        callback.call(obj, prop, oldValue, newValue, value);
-      };
+          oldValue = newValue;
+          callback.call(obj, prop, oldValue, newValue, value);
+        };
       
       if (delete obj[prop]) {
         if (Object.defineProperty) {
@@ -39,6 +39,8 @@
           Object.prototype.__defineSetter__(obj, prop, setter);
         }
       }
+      
+      return this;
   };
   
   /**
@@ -55,6 +57,8 @@
     
     delete obj[prop];
     obj[prop] = value;
+    
+    return this;
   };
 
   /**
@@ -69,19 +73,38 @@
       throw new TypeError('You must specify an object to watch.');
     }
     
+    var obj, prop, callback;
+    
     if (typeof arguments[0] === 'object' && typeof arguments[1] === 'function') {
-      // Watch all properties.
-      var obj = arguments[0]
-        , callback = arguments[1];
+
+      obj = arguments[0];
+      callback = arguments[1];
         
-      for (var prop in obj) {
+      for (prop in obj) {
         if (obj.hasOwnProperty(prop)) {
           watch(obj, prop, callback);
         }
       }
-    } else if (typeof arguments[1] === 'array' || typeof arguments[1] === 'string') {
-      // Watch specific properties.
+    } else if (typeof arguments[0] === 'object' && arguments[1] instanceof Array && typeof arguments[2] === 'function') {
+      
+      obj = arguments[0];
+      callback = arguments[2];
+      var props = arguments[1];
+      
+      for (var i=0; i < props.length; i++) {
+        obj[props[i]] && watch(obj, props[i], callback);
+      }
+      
+    } else if (typeof arguments[0] === 'object' && typeof arguments[1] === 'string' && typeof arguments[2] === 'function') {
+      
+      obj = arguments[0];
+      prop = arguments[1];
+      callback = arguments[2];
+      
+      obj[prop] && watch(obj, prop, callback);
     }
+    
+    return this;
   };
   
   /**
@@ -101,6 +124,8 @@
         unwatch(obj, prop);
       }
     }
+    
+    return this;
   };
 
 }(window);
