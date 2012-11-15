@@ -58,7 +58,8 @@
   };
 
   /**
-   * Main access to the lookout object.
+   * Watch for changes in an object - watch all properties of an object or
+   *   only watch specific properties of the object.
    */
 
   window.lookout = function() {
@@ -78,8 +79,27 @@
           watch(obj, prop, callback);
         }
       }
-    } else if (typeof arguments[1] === 'Array') {
+    } else if (typeof arguments[1] === 'array' || typeof arguments[1] === 'string') {
       // Watch specific properties.
+    }
+  };
+  
+  /**
+   * Remove the property change subscriptions that have been set using
+   *   lookout.
+   */
+  
+  window.disregard = function() {
+    if (arguments.length === 0) {
+      throw new Error('You must specify an object to disregard.');
+    }
+    
+    var obj = arguments[0];
+    
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        unwatch(obj, prop);
+      }
     }
   };
 

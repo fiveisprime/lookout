@@ -24,10 +24,13 @@
 
   module('Initialization');
 
-  test('initializes', 2, function() {
+  test('initializes and is available', 4, function() {
     
-    ok(window.lookout, 'should initialize');
-    equal(window.lookout instanceof Function, true, 'should be exposed as a function');
+    ok(window.lookout, 'lookout should be available');
+    ok(window.disregard, 'disregard should be available');
+
+    equal(window.lookout instanceof Function, true, 'lookout should be exposed as a function');
+    equal(window.disregard instanceof Function, true, 'disregard should be exposed as a function');
     
   });
   
