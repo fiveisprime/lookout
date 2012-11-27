@@ -54,6 +54,7 @@ The change function also passes the name of the property that changed, the old v
 
 ## Release History
 * 2012/11/15 - v0.1.0 - Initial release.
+* 2012/11/27 - v0.1.1 - Bug fixes.
 
 ## License
 Copyright (c) 2012 Matt Hernandez

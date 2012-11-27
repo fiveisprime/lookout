@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head><title>README</title><meta http-equiv="Content-Type" content="text/html" charset="UTF-8"><link rel="stylesheet" media="all" href="./docco.css"></head><body><div id="container"><div id="background"></div><div id="jump_to">Jump To &hellip;<div id="jump_wrapper"><div id="jump_page"><a href="./index.html" class="source"><span class="file_name">README</span></a><a href="./src/lookout.js.html" class="source "><span class="base_path">src / </span><span class="file_name">lookout.js</span></a></div></div></div><table cellpadding="0" cellspacing="0"><thead><tr><th class="docs"></th><th class="code"></th></tr></thead><tbody><tr id="section"><td class="docs"><h1><a href="https://github.com/fiveisprime/lookout">lookout
-</a></h1><p>Watch objects for changes.</p><h3>Version</h3><p>0.1.0</p><h3>Author</h3><p><span class="gravatar"><img src="http://www.gravatar.com/avatar/1a1ecb880527b1fccad00224317c5cc6"/><span>Matt Hernandez&lt;matt@eventargs.com&gt;</span></span></p><h3>Repository</h3><p>git - git://github.com/fiveisprime/lookout.git</p><h3>Dependencies </h3><ul></ul><p><h3>Stats</h3><pre class="code_stats">
+</a></h1><p>Watch objects for changes.</p><h3>Version</h3><p>0.1.1</p><h3>Author</h3><p><span class="gravatar"><img src="http://www.gravatar.com/avatar/1a1ecb880527b1fccad00224317c5cc6"/><span>Matt Hernandez&lt;matt@eventargs.com&gt;</span></span></p><h3>Repository</h3><p>git - git://github.com/fiveisprime/lookout.git</p><h3>Dependencies </h3><ul></ul><p><h3>Stats</h3><pre class="code_stats">
 http://cloc.sourceforge.net v 1.55  T=0.5 s (2.0 files/s, 290.0 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
@@ -51,13 +51,13 @@ object that changed:</p>
 &lt;/script&gt;
 </code></pre>
 
-<p>The change function also passes the name of the property that changed, the old value and the new value:</p>
+<p>The change function also passes the name of the property that changed, the old value, and the new value:</p>
 
 <pre><code>&lt;script&gt;
   var myObject = { id: 100, name: 'my object' };
 
   lookout(myObject, function(prop, oldValue, newValue) {
-    console.log(prop + ' just changed from ' + oldValue + ' to ' + newValue);
+    console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
   });
 &lt;/script&gt;
 </code></pre>
@@ -66,6 +66,7 @@ object that changed:</p>
 
 <ul>
 <li>2012/11/15 - v0.1.0 - Initial release.</li>
+<li>2012/11/27 - v0.1.1 - Bug fixes.</li>
 </ul>
 
 <h2>License</h2>

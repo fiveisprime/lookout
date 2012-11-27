@@ -2,7 +2,7 @@
   "name": "lookout",
   "title": "Lookout",
   "description": "Watch objects for changes.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/fiveisprime/lookout",
   "author": {
     "name": "Matt Hernandez",
