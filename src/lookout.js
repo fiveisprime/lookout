@@ -7,6 +7,8 @@
  */
 
 !function(window) {
+
+  "use strict";
   
   /**
    * Watch the specified property of the specified object for changes
@@ -32,6 +34,9 @@
           callback.call(obj, prop, oldValue, newValue);
         };
       
+      // Attempt to delete the property. If this fails, the configurable
+      // flag is set to false which means that any changes to the property
+      // will throw a TypeError.
       if (delete obj[prop]) {
         if (Object.defineProperty) {
           // ECMAScript 5 standard.
@@ -81,39 +86,43 @@
    */
 
   window.lookout = function() {
-    if (arguments.length === 0) {
+    var obj
+      , prop
+      , callback
+      , args = [].slice.call(arguments);
+
+    if (args.length === 0) {
       throw new Error('You must specify an object to watch and a callback.');
-    } else if (typeof arguments[0] !== 'object') {
+    } else if (typeof args[0] !== 'object') {
       throw new TypeError('You must specify an object to watch.');
     }
     
-    var obj, prop, callback;
-    
-    if (typeof arguments[0] === 'object' && typeof arguments[1] === 'function') {
+    if (typeof args[0] === 'object' && typeof args[1] === 'function') {
 
-      obj = arguments[0];
-      callback = arguments[1];
+      obj = args[0];
+      callback = args[1];
         
       for (prop in obj) {
         if (obj.hasOwnProperty(prop)) {
           watch(obj, prop, callback);
         }
       }
-    } else if (typeof arguments[0] === 'object' && arguments[1] instanceof Array && typeof arguments[2] === 'function') {
+    } else if (typeof args[0] === 'object' && args[1] instanceof Array && typeof args[2] === 'function') {
       
-      obj = arguments[0];
-      callback = arguments[2];
-      var props = arguments[1];
+      obj = args[0];
+      callback = args[2];
+      var props = args[1];
       
-      for (var i = 0; i < props.length; i++) {
-        obj[props[i]] && watch(obj, props[i], callback);
+      for (var i = 0; prop = props[i]; i++) {
+        // Only watch for changes on the properties that exist.
+        obj[prop] && watch(obj, prop, callback);
       }
       
-    } else if (typeof arguments[0] === 'object' && typeof arguments[1] === 'string' && typeof arguments[2] === 'function') {
+    } else if (typeof args[0] === 'object' && typeof args[1] === 'string' && typeof args[2] === 'function') {
       
-      obj = arguments[0];
-      prop = arguments[1];
-      callback = arguments[2];
+      obj = args[0];
+      prop = args[1];
+      callback = args[2];
       
       obj[prop] && watch(obj, prop, callback);
     }
@@ -127,11 +136,13 @@
    */
   
   window.disregard = function() {
-    if (arguments.length === 0) {
+    var args = [].slice.call(arguments);
+    
+    if (args.length === 0) {
       throw new Error('You must specify an object to disregard.');
     }
     
-    var obj = arguments[0];
+    var obj = args[0];
     
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) {
