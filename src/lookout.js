@@ -34,24 +34,24 @@
           callback.call(obj, prop, oldValue, newValue);
         };
       
-      // Attempt to delete the property. If this fails, the configurable
-      // flag is set to false which means that any changes to the property
-      // will throw a TypeError.
-      if (delete obj[prop]) {
-        if (Object.defineProperty) {
-          // ECMAScript 5 standard.
-          Object.defineProperty(obj, prop, {
-            get: getter,
-            set: setter
-          });
-        } else if (Object.prototype.__defineGetter__ && Object.prototype.__defineSetter__) {
-          // Older browsers.
-          Object.prototype.__defineGetter__(obj, prop, getter);
-          Object.prototype.__defineSetter__(obj, prop, setter);
-        }
+    // Attempt to delete the property. If this fails, the configurable
+    // flag is set to false which means that any changes to the property
+    // will throw a TypeError.
+    if (delete obj[prop]) {
+      if (Object.defineProperty) {
+        // ECMAScript 5 standard.
+        Object.defineProperty(obj, prop, {
+          get: getter,
+          set: setter
+        });
+      } else if (Object.prototype.__defineGetter__ && Object.prototype.__defineSetter__) {
+        // Older browsers.
+        Object.prototype.__defineGetter__(obj, prop, getter);
+        Object.prototype.__defineSetter__(obj, prop, setter);
       }
-      
-      return this;
+    }
+    
+    return this;
   };
   
   /**
