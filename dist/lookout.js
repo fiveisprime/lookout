@@ -1,5 +1,5 @@
 /*!
- * Lookout - v0.1.1 - 2012-11-30
+ * Lookout - v0.1.1 - 2012-12-01
  * https://github.com/fiveisprime/lookout
  * Copyright (c) 2012 Matt Hernandez
  * Licensed under MIT, GPL licenses.
@@ -25,12 +25,14 @@
   
   var watch = function(obj, prop, callback) {
     var oldValue = obj[prop]
-      , newValue = oldValue
-      , getter = function() { return newValue; }
+      , currentValue = oldValue
+      , getter = function() { return currentValue; }
       , setter = function(value) {
-          oldValue = newValue;
-          newValue = value;
-          callback.call(obj, prop, oldValue, newValue);
+          if (value !== currentValue) {
+            oldValue = currentValue;
+            currentValue = value;
+            callback.call(obj, prop, oldValue, currentValue);
+          }
         };
       
     // Attempt to delete the property. If this fails, the configurable

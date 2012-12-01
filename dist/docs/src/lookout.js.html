@@ -6,12 +6,14 @@
 </td><td class="code"><div class="highlight"><pre>  
   <span class="kd">var</span> <span class="nx">watch</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">oldValue</span> <span class="o">=</span> <span class="nx">obj</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span>
-      <span class="p">,</span> <span class="nx">newValue</span> <span class="o">=</span> <span class="nx">oldValue</span>
-      <span class="p">,</span> <span class="nx">getter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">newValue</span><span class="p">;</span> <span class="p">}</span>
+      <span class="p">,</span> <span class="nx">currentValue</span> <span class="o">=</span> <span class="nx">oldValue</span>
+      <span class="p">,</span> <span class="nx">getter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">currentValue</span><span class="p">;</span> <span class="p">}</span>
       <span class="p">,</span> <span class="nx">setter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">oldValue</span> <span class="o">=</span> <span class="nx">newValue</span><span class="p">;</span>
-          <span class="nx">newValue</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
-          <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">oldValue</span><span class="p">,</span> <span class="nx">newValue</span><span class="p">);</span>
+          <span class="k">if</span> <span class="p">(</span><span class="nx">value</span> <span class="o">!==</span> <span class="nx">currentValue</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">oldValue</span> <span class="o">=</span> <span class="nx">currentValue</span><span class="p">;</span>
+            <span class="nx">currentValue</span> <span class="o">=</span> <span class="nx">value</span><span class="p">;</span>
+            <span class="nx">callback</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span> <span class="nx">prop</span><span class="p">,</span> <span class="nx">oldValue</span><span class="p">,</span> <span class="nx">currentValue</span><span class="p">);</span>
+          <span class="p">}</span>
         <span class="p">};</span>
       </pre></div></td></tr><tr id="section-3"><td class="docs"><div class="pilwrap"><a href="#section-3" class="pilcrow">&#182;</a></div><p>Attempt to delete the property. If this fails, the configurable
 flag is set to false which means that any changes to the property
