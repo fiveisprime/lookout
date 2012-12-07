@@ -1,5 +1,5 @@
 /*!
- * Lookout - v0.1.1 - 2012-12-01
+ * Lookout - v0.1.1 - 2012-12-06
  * https://github.com/fiveisprime/lookout
  * Copyright (c) 2012 Matt Hernandez
  * Licensed under MIT, GPL licenses.
@@ -8,7 +8,7 @@
 !function(window) {
 
   "use strict";
-  
+
   /**
    * Watch the specified property of the specified object for changes
    *   and call the specified callback when changed.
@@ -22,7 +22,7 @@
    * @param {Function} callback The callback to raise when the property changes.
    * @return {Object} The global window object.
    */
-  
+
   var watch = function(obj, prop, callback) {
     var oldValue = obj[prop]
       , currentValue = oldValue
@@ -34,7 +34,7 @@
             callback.call(obj, prop, oldValue, currentValue);
           }
         };
-      
+
     // Attempt to delete the property. If this fails, the configurable
     // flag is set to false which means that any changes to the property
     // will throw a TypeError.
@@ -51,10 +51,10 @@
         Object.prototype.__defineSetter__(obj, prop, setter);
       }
     }
-    
+
     return this;
   };
-  
+
   /**
    * Removes the getter and setter functions of the specified property
    *   from the specified object and rewites the value to the object.
@@ -64,15 +64,15 @@
    * setter functions removed.
    * @return {Object} The global window object.
    */
-  
+
   var unwatch = function(obj, prop) {
     var value = obj[prop];
-    
+
     // Delete the property that has the get/set functions specified
     // then add the property back using the original value.
     delete obj[prop];
     obj[prop] = value;
-    
+
     return this;
   };
 
@@ -89,68 +89,69 @@
   window.lookout = function() {
     var obj
       , prop
+      , props
       , callback
-      , args = [].slice.call(arguments);
+      , args = Array.prototype.slice.call(arguments);
 
     if (args.length === 0) {
       throw new Error('You must specify an object to watch and a callback.');
     } else if (typeof args[0] !== 'object') {
       throw new TypeError('You must specify an object to watch.');
     }
-    
+
     if (typeof args[0] === 'object' && typeof args[1] === 'function') {
 
-      obj = args[0];
-      callback = args[1];
-        
+      obj      = args.shift();
+      callback = args.shift();
+
       for (prop in obj) {
         if (obj.hasOwnProperty(prop)) {
           watch(obj, prop, callback);
         }
       }
     } else if (typeof args[0] === 'object' && args[1] instanceof Array && typeof args[2] === 'function') {
-      
-      obj = args[0];
-      callback = args[2];
-      var props = args[1];
-      
+
+      obj       = args.shift();
+      props     = args.shift();
+      callback  = args.shift();
+
       for (var i = 0; prop = props[i]; i++) {
         // Only watch for changes on the properties that exist.
         obj[prop] && watch(obj, prop, callback);
       }
-      
+
     } else if (typeof args[0] === 'object' && typeof args[1] === 'string' && typeof args[2] === 'function') {
-      
-      obj = args[0];
-      prop = args[1];
-      callback = args[2];
-      
+
+      obj      = args.shift();
+      prop     = args.shift();
+      callback = args.shift();
+
       obj[prop] && watch(obj, prop, callback);
     }
-    
+
     return this;
   };
-  
+
   /**
    * Remove the property change subscriptions that have been set using lookout.
    * @return {Object} The global window object.
    */
-  
+
   window.disregard = function() {
-    var args = [].slice.call(arguments);
-    
-    if (args.length === 0) {
-      throw new Error('You must specify an object to disregard.');
-    }
-    
-    var obj = args[0];
-    
-    for (var prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-        unwatch(obj, prop);
+    var args = Array.prototype.slice.call(arguments)
+      , obj = args.shift();
+
+    if (obj) {
+      for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+          unwatch(obj, prop);
+        }
       }
     }
-    
+    else {
+      throw new Error('You must specify an object to disregard.');
+    }
+
     return this;
   };
 
