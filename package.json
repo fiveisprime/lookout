@@ -34,14 +34,14 @@
     "test": "grunt qunit --verbose"
   },
   "dependencies": {
-    
+
   },
   "devDependencies": {
     "grunt": "~0.3.15",
     "docco-husky": "~0.3.3"
   },
   "docco_husky": {
-    "output_dir": "dist/docs",
+    "output_dir": "docs",
     "project_name": "Lookout",
     "show_timestamp": false
   }
