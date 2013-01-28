@@ -1,7 +1,7 @@
 /*!
- * Lookout - v0.1.1 - 2012-12-06
+ * Lookout - v0.1.1 - 2013-01-08
  * https://github.com/fiveisprime/lookout
- * Copyright (c) 2012 Matt Hernandez
+ * Copyright (c) 2013 Matt Hernandez
  * Licensed under MIT, GPL licenses.
  */
 
