@@ -24,7 +24,7 @@
    * @return {Object} The global window object.
    */
 
-  var watch = function(obj, prop, callback) {
+  var watch = function watch(obj, prop, callback) {
     var oldValue = obj[prop]
       , currentValue = oldValue
       , getter = function() { return currentValue; }
@@ -66,7 +66,7 @@
    * @return {Object} The global window object.
    */
 
-  var unwatch = function(obj, prop) {
+  var unwatch = function unwatch(obj, prop) {
     var value = obj[prop];
 
     // Delete the property that has the get/set functions specified
@@ -87,11 +87,12 @@
    * @return {Object} The global window object.
    */
 
-  window.lookout = function() {
+  window.lookout = function lookout() {
     var obj
       , prop
       , props
       , callback
+      , i
       , args = Array.prototype.slice.call(arguments);
 
     if (args.length === 0) {
@@ -100,9 +101,9 @@
       throw new TypeError('You must specify an object to watch.');
     }
 
-    if (typeof args[0] === 'object' && typeof args[1] === 'function') {
+    obj = args.shift();
 
-      obj      = args.shift();
+    if (typeof args[0] === 'function') {
       callback = args.shift();
 
       for (prop in obj) {
@@ -110,24 +111,22 @@
           watch(obj, prop, callback);
         }
       }
-    } else if (typeof args[0] === 'object' && args[1] instanceof Array && typeof args[2] === 'function') {
+    } else {
+      if (args[0] instanceof Array) {
+        props = args.shift();
+      }
 
-      obj       = args.shift();
-      props     = args.shift();
-      callback  = args.shift();
+      if (typeof args[0] === 'string') {
+        props = [];
+        props.push(args.shift());
+      }
 
-      for (var i = 0; prop = props[i]; i++) {
+      callback = args.shift();
+
+      for (i = 0; prop = props[i]; i++) {
         // Only watch for changes on the properties that exist.
         obj[prop] && watch(obj, prop, callback);
       }
-
-    } else if (typeof args[0] === 'object' && typeof args[1] === 'string' && typeof args[2] === 'function') {
-
-      obj      = args.shift();
-      prop     = args.shift();
-      callback = args.shift();
-
-      obj[prop] && watch(obj, prop, callback);
     }
 
     return this;
@@ -138,7 +137,7 @@
    * @return {Object} The global window object.
    */
 
-  window.disregard = function() {
+  window.disregard = function disregard() {
     var args = Array.prototype.slice.call(arguments)
       , obj = args.shift();
 
