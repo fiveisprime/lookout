@@ -1,6 +1,6 @@
 # Lookout [![Build Status](https://secure.travis-ci.org/fiveisprime/lookout.png?branch=master)](https://travis-ci.org/fiveisprime/lookout)
 
-Watch JavaScript objects for property changes.
+Create subscriptions for object property changes.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max].
@@ -23,8 +23,8 @@ disregard(something);
 ```
 
 ## Examples
-Lookout allows you to subscribe to change notifications on an object for things like validation and ensures that `this` is the
-object that changed:
+Lookout allows you to subscribe to change notifications on an object for things
+like validation and ensures that `this` is the object that changed:
 
 ```js
 var myObject = { id: 100, name: 'my object' };
@@ -37,7 +37,8 @@ lookout(myObject, 'name', function() {
 });
 ```
 
-The change function also passes the name of the property that changed, the old value, and the new value:
+The notification callback also passes the name of the property that changed,
+the old value, and the new value:
 
 ```js
 var myObject = { id: 100, name: 'my object' };
@@ -48,6 +49,7 @@ lookout(myObject, function(prop, oldValue, newValue) {
 ```
 
 ## Release History
+* 2013/10/18 - v0.1.2 - Major rework of the build system and corrected `disregard` functionality.
 * 2012/11/27 - v0.1.1 - Bug fixes.
 * 2012/11/15 - v0.1.0 - Initial release.
 

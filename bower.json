@@ -1,0 +1,28 @@
+{
+  "name": "lookout",
+  "version": "0.1.2",
+  "homepage": "https://github.com/fiveisprime/lookout",
+  "authors": [
+    "Matt Hernandez <matt@modulus.io>"
+  ],
+  "description": "Subscribe to object property changes.",
+  "main": "src/lookout.js",
+  "keywords": [
+    "change",
+    "changes",
+    "notification",
+    "notifications",
+    "watch"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "spec",
+    "lib",
+    "docs",
+    ".jshintrc",
+    ".travis.yml",
+    "Makefile"
+  ]
+}

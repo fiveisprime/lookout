@@ -16,7 +16,7 @@
   //    making it possible to alert the caller that some property of the
   //    object has changed.
   //
-  var watch = function watch(obj, prop, callback) {
+  var watch = function(obj, prop, callback) {
     var oldValue = obj[prop]
       , currentValue = oldValue
       , getter = function() { return currentValue; }
@@ -56,7 +56,7 @@
   // Removes the getter and setter functions of the specified property
   //    from the specified object and rewrites the value to the object.
   //
-  var unwatch = function unwatch(obj, prop) {
+  var unwatch = function(obj, prop) {
     var value = obj[prop];
 
     //
@@ -78,7 +78,10 @@
   //    changes.
   //
   window.lookout = function(obj, props, fn) {
-    var prop = null;
+    if (!obj) throw new Error('You must specify an object to watch.');
+    if (!props) throw new Error('You must specify an object to watch and a callback.');
+
+    var prop = null, i;
 
     if (typeof props === 'function') {
       for (prop in obj) {
@@ -89,7 +92,7 @@
     } else {
       if (typeof props === 'string') props = [props];
 
-      for (var i = 0; (prop = props[i]); i++) {
+      for (i = 0; (prop = props[i]); i++) {
         obj[prop] && watch(obj, prop, fn);
       }
     }
