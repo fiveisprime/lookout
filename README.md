@@ -3,7 +3,8 @@
 Create subscriptions for object property changes.
 
 ## Getting Started
-Download the [production version][min] or the [development version][max].
+Download the [production version][min] or the [development version][max] or
+install using [bower](http://bower.io).
 
 [min]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.min.js
 [max]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.js
@@ -21,6 +22,11 @@ lookout(something, function() {
 // Unwatch the object's properties using disregard.
 disregard(something);
 ```
+
+## Browser support
+
+Lookout does not support Internet Explorer 6 or 7. All other browsers and
+versions are supported.
 
 ## Examples
 Lookout allows you to subscribe to change notifications on an object for things
