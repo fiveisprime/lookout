@@ -1,14 +1,9 @@
 {
   "name": "lookout",
-  "title": "Lookout",
   "description": "Watch objects for changes.",
   "version": "0.1.1",
   "homepage": "https://github.com/fiveisprime/lookout",
-  "author": {
-    "name": "Matt Hernandez",
-    "email": "matt@eventargs.com",
-    "url": "http://eventargs.com"
-  },
+  "author": "Matt Hernandez <matt@modulus.io>",
   "repository": {
     "type": "git",
     "url": "git://github.com/fiveisprime/lookout.git"
@@ -16,33 +11,14 @@
   "bugs": {
     "url": "https://github.com/fiveisprime/lookout/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/fiveisprime/lookout/blob/master/LICENSE-MIT"
-    },
-    {
-      "type": "GPL",
-      "url": "https://github.com/fiveisprime/lookout/blob/master/LICENSE-GPL"
-    }
-  ],
-  "keywords": [],
-  "engines": {
-    "node": ">= 0.6.0"
-  },
   "scripts": {
-    "test": "grunt qunit --verbose"
+    "test": "make test"
   },
-  "dependencies": {
-
-  },
+  "license": "MIT",
+  "dependencies": {},
   "devDependencies": {
-    "grunt": "~0.3.15",
-    "docco-husky": "~0.3.3"
-  },
-  "docco_husky": {
-    "output_dir": "docs",
-    "project_name": "Lookout",
-    "show_timestamp": false
+    "jshint": "~2.2.0",
+    "uglify-js": "~2.4.0",
+    "jasmine-node": "~1.11.0"
   }
 }

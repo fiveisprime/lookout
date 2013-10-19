@@ -1,29 +1,21 @@
-/*
- * lookout
- * https://github.com/fiveisprime/lookout
- *
- * Copyright (c) 2012 Matt Hernandez
- * Licensed under the MIT, GPL licenses.
- */
+//
+//     Lookout.js
+//     Copyright(c) 2013 Matt Hernandez <matt@modulus.io>
+//     MIT Licensed
+//
 
 !function(window) {
 
-  "use strict";
+  'use strict';
 
-  /**
-   * Watch the specified property of the specified object for changes
-   *   and call the specified callback when changed.
-   * This function creates a property with get and set functions which
-   *   fire the specified callback function when the set function is called
-   *   making it possible to alert the caller that some property of the
-   *   object has changed.
-   * @private
-   * @param {Object} obj The object to watch.
-   * @param {String} prop The name of the property to watch.
-   * @param {Function} callback The callback to raise when the property changes.
-   * @return {Object} The global window object.
-   */
-
+  //
+  // Watch the specified property of the specified object for changes
+  //    and call the specified callback when changed.
+  // This function creates a property with get and set functions which
+  //    fire the callback function when the set function is called
+  //    making it possible to alert the caller that some property of the
+  //    object has changed.
+  //
   var watch = function watch(obj, prop, callback) {
     var oldValue = obj[prop]
       , currentValue = oldValue
@@ -36,15 +28,19 @@
           }
         };
 
+    //
     // Attempt to delete the property. If this fails, the configurable
-    // flag is set to false which means that any changes to the property
-    // will throw a TypeError.
+    //    flag is set to false which means that any changes to the property
+    //    will throw a TypeError.
+    //
     if (delete obj[prop]) {
       if (Object.defineProperty) {
         // ECMAScript 5 standard.
         Object.defineProperty(obj, prop, {
-          get: getter,
-          set: setter
+          get: getter
+        , set: setter
+        , configurable: true
+        , enumerable: true
         });
       } else if (Object.prototype.__defineGetter__ && Object.prototype.__defineSetter__) {
         // Older browsers.
@@ -56,91 +52,55 @@
     return this;
   };
 
-  /**
-   * Removes the getter and setter functions of the specified property
-   *   from the specified object and rewites the value to the object.
-   * @private
-   * @param {Object} obj The object to remove the getter and setter functions from.
-   * @param {String} prop The name of the property that will have the getter and
-   * setter functions removed.
-   * @return {Object} The global window object.
-   */
-
+  //
+  // Removes the getter and setter functions of the specified property
+  //    from the specified object and rewrites the value to the object.
+  //
   var unwatch = function unwatch(obj, prop) {
     var value = obj[prop];
 
+    //
     // Delete the property that has the get/set functions specified
-    // then add the property back using the original value.
+    //    then add the property back using the original value.
+    //
     delete obj[prop];
     obj[prop] = value;
 
     return this;
   };
 
-  /**
-   * Watch for changes in an object and fire a callback when a property changes.
-   * Pass an object and callback function to watch all properties of an
-   *   object or an object, property name, and callback function to watch
-   *   only a single property or an object, an array of property names,
-   *   and a callback function to watch several specific properties for
-   *   changes.
-   * @return {Object} The global window object.
-   */
+  //
+  // Watch for changes in an object and fire a callback when a property changes.
+  // Pass an object and callback function to watch all properties of an
+  //    object or an object, property name, and callback function to watch
+  //    only a single property or an object, an array of property names,
+  //    and a callback function to watch several specific properties for
+  //    changes.
+  //
+  window.lookout = function(obj, props, fn) {
+    var prop = null;
 
-  window.lookout = function lookout() {
-    var obj
-      , prop
-      , props
-      , callback
-      , i
-      , args = Array.prototype.slice.call(arguments);
-
-    if (args.length === 0) {
-      throw new Error('You must specify an object to watch and a callback.');
-    } else if (typeof args[0] !== 'object') {
-      throw new TypeError('You must specify an object to watch.');
-    }
-
-    obj = args.shift();
-
-    if (typeof args[0] === 'function') {
-      callback = args.shift();
-
+    if (typeof props === 'function') {
       for (prop in obj) {
         if (obj.hasOwnProperty(prop)) {
-          watch(obj, prop, callback);
+          watch(obj, prop, props);
         }
       }
     } else {
-      if (args[0] instanceof Array) {
-        props = args.shift();
-      }
+      if (typeof props === 'string') props = [props];
 
-      if (typeof args[0] === 'string') {
-        props = [];
-        props.push(args.shift());
-      }
-
-      callback = args.shift();
-
-      for (i = 0; prop = props[i]; i++) {
-        // Only watch for changes on the properties that exist.
-        obj[prop] && watch(obj, prop, callback);
+      for (var i = 0; (prop = props[i]); i++) {
+        obj[prop] && watch(obj, prop, fn);
       }
     }
 
     return this;
   };
 
-  /**
-   * Remove the property change subscriptions that have been set using lookout.
-   * @return {Object} The global window object.
-   */
-
-  window.disregard = function disregard() {
-    var args = Array.prototype.slice.call(arguments)
-      , obj = args.shift();
-
+  //
+  // Remove the property change subscriptions that have been set using lookout.
+  //
+  window.disregard = function(obj) {
     if (obj) {
       for (var prop in obj) {
         if (obj.hasOwnProperty(prop)) {
@@ -155,4 +115,4 @@
     return this;
   };
 
-}(window);
+}(typeof window === 'undefined' ? module.exports : window);
