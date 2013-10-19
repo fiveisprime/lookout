@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>lookout.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>lookout.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <pre><code>Lookout.js
+Copyright(c) 2013 Matt Hernandez &lt;matt@modulus.io&gt;
+MIT Licensed</code></pre>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>!<span class="keyword">function</span>(window) {
+
+  <span class="string">'use strict'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Watch the specified property of the specified object for changes
+   and call the specified callback when changed.
+This function creates a property with get and set functions which
+   fire the callback function when the set function is called
+   making it possible to alert the caller that some property of the
+   object has changed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> watch = <span class="function"><span class="keyword">function</span> <span class="title">watch</span><span class="params">(obj, prop, callback)</span> {</span>
+    <span class="keyword">var</span> oldValue = obj[prop]
+      , currentValue = oldValue
+      , getter = <span class="keyword">function</span>() { <span class="keyword">return</span> currentValue; }
+      , setter = <span class="keyword">function</span>(value) {
+          <span class="keyword">if</span> (value !== currentValue) {
+            oldValue = currentValue;
+            currentValue = value;
+            callback.call(obj, prop, oldValue, currentValue);
+          }
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Attempt to delete the property. If this fails, the configurable
+   flag is set to false which means that any changes to the property
+   will throw a TypeError.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (<span class="keyword">delete</span> obj[prop]) {
+      <span class="keyword">if</span> (Object.defineProperty) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>ECMAScript 5 standard.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        Object.defineProperty(obj, prop, {
+          get: getter
+        , set: setter
+        , configurable: <span class="literal">true</span>
+        , enumerable: <span class="literal">true</span>
+        });
+      } <span class="keyword">else</span> <span class="keyword">if</span> (Object.prototype.__defineGetter__ &amp;&amp; Object.prototype.__defineSetter__) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Older browsers.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        Object.prototype.__defineGetter__(obj, prop, getter);
+        Object.prototype.__defineSetter__(obj, prop, setter);
+      }
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Removes the getter and setter functions of the specified property
+   from the specified object and rewrites the value to the object.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> unwatch = <span class="function"><span class="keyword">function</span> <span class="title">unwatch</span><span class="params">(obj, prop)</span> {</span>
+    <span class="keyword">var</span> value = obj[prop];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Delete the property that has the get/set functions specified
+   then add the property back using the original value.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">delete</span> obj[prop];
+    obj[prop] = value;
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Watch for changes in an object and fire a callback when a property changes.
+Pass an object and callback function to watch all properties of an
+   object or an object, property name, and callback function to watch
+   only a single property or an object, an array of property names,
+   and a callback function to watch several specific properties for
+   changes.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  window.lookout = <span class="keyword">function</span>(obj, props, fn) {
+    <span class="keyword">var</span> prop = <span class="literal">null</span>;
+
+    <span class="keyword">if</span> (<span class="keyword">typeof</span> props === <span class="string">'function'</span>) {
+      <span class="keyword">for</span> (prop <span class="keyword">in</span> obj) {
+        <span class="keyword">if</span> (obj.hasOwnProperty(prop)) {
+          watch(obj, prop, props);
+        }
+      }
+    } <span class="keyword">else</span> {
+      <span class="keyword">if</span> (<span class="keyword">typeof</span> props === <span class="string">'string'</span>) props = [props];
+
+      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; (prop = props[i]); i++) {
+        obj[prop] &amp;&amp; watch(obj, prop, fn);
+      }
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Remove the property change subscriptions that have been set using lookout.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  window.disregard = <span class="keyword">function</span>(obj) {
+    <span class="keyword">if</span> (obj) {
+      <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> obj) {
+        <span class="keyword">if</span> (obj.hasOwnProperty(prop)) {
+          unwatch(obj, prop);
+        }
+      }
+    }
+    <span class="keyword">else</span> {
+      <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'You must specify an object to disregard.'</span>);
+    }
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  };
+
+}(<span class="keyword">typeof</span> window === <span class="string">'undefined'</span> ? module.exports : window);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

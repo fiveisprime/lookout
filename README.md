@@ -5,87 +5,79 @@ Watch JavaScript objects for property changes.
 ## Getting Started
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.github.com/fiveisprime/lookout/master/dist/lookout.min.js
-[max]: https://raw.github.com/fiveisprime/lookout/master/dist/lookout.js
+[min]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.min.js
+[max]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.js
 
 In your web page:
 
-    <script src="dist/lookout.min.js"></script>
-    <script>
-      var something = { name: 'something' };
-      
-      // Watch the object's properties using lookout.
-      lookout(something, function() {
-        console.log('Something just changed');
-      });
-      
-      // Unwatch the object's properties using disregard.
-      disregard(something);
-    </script>
-
-
-## Documentation
-Generated documentation is available at `./dist/docs/index.html`. This documentation is generated using [docco-husky](https://github.com/mbrevoort/docco-husky) and my be regenerated using `$ docco-husky src/*` (run `$ npm install` first).
+```js
+<script src="dist/lookout.min.js"></script>
+<script>
+  var something = { name: 'something' };
+  
+  // Watch the object's properties using lookout.
+  lookout(something, function() {
+    console.log('Something just changed');
+  });
+  
+  // Unwatch the object's properties using disregard.
+  disregard(something);
+</script>
+```
 
 ## Examples
 Lookout allows you to subscribe to change notifications on an object for things like validation and ensures that `this` is the
 object that changed:
 
-    <script>
-      var myObject = { id: 100, name: 'my object' };
-      
-      lookout(myObject, 'name', function() {
-        // this is the object that just changed.
-        if (this.name.length === 0) {
-          alert('Invalid name value!');
-        }
-      });
-    </script>
+```js
+<script>
+  var myObject = { id: 100, name: 'my object' };
+  
+  lookout(myObject, 'name', function() {
+    // this is the object that just changed.
+    if (this.name.length === 0) {
+      alert('Invalid name value!');
+    }
+  });
+</script>
+```
 
 The change function also passes the name of the property that changed, the old value, and the new value:
 
-    <script>
-      var myObject = { id: 100, name: 'my object' };
-      
-      lookout(myObject, function(prop, oldValue, newValue) {
-        console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
-      });
-    </script>
+```js
+<script>
+  var myObject = { id: 100, name: 'my object' };
+  
+  lookout(myObject, function(prop, oldValue, newValue) {
+    console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
+  });
+</script>
+```
 
 ## Release History
-* 2012/11/15 - v0.1.0 - Initial release.
 * 2012/11/27 - v0.1.1 - Bug fixes.
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt](https://github.com/cowboy/grunt).
-
-### Important notes
-Please don't edit files in the `dist` subdirectory as they are generated via grunt. You'll find source code in the `src` subdirectory!
-
-While grunt can run the included unit tests via PhantomJS, this shouldn't be considered a substitute for the real thing. Please be sure to test the `test/*.html` unit test file(s) in _actual_ browsers.
-
-### Installing grunt
-_This assumes you have [node.js](http://nodejs.org/) and [npm](http://npmjs.org/) installed already._
-
-1. Test that grunt is installed globally by running `grunt --version` at the command-line.
-1. If grunt isn't installed globally, run `npm install -g grunt` to install the latest version. _You may need to run `sudo npm install -g grunt`._
-1. From the root directory of this project, run `npm install` to install the project's dependencies.
-
-### Installing PhantomJS
-
-In order for the qunit task to work properly, [PhantomJS](http://www.phantomjs.org/) must be installed and in the system PATH (if you can run "phantomjs" at the command line, this task should work).
-
-Unfortunately, PhantomJS cannot be installed automatically via npm or grunt, so you need to install it yourself. There are a number of ways to install PhantomJS.
-
-* [PhantomJS and Mac OS X](http://ariya.ofilabs.com/2012/02/phantomjs-and-mac-os-x.html)
-* [PhantomJS Installation](http://code.google.com/p/phantomjs/wiki/Installation) (PhantomJS wiki)
-
-Note that the `phantomjs` executable needs to be in the system `PATH` for grunt to see it.
-
-* [How to set the path and environment variables in Windows](http://www.computerhope.com/issues/ch000549.htm)
-* [Where does $PATH get set in OS X 10.6 Snow Leopard?](http://superuser.com/questions/69130/where-does-path-get-set-in-os-x-10-6-snow-leopard)
-* [How do I change the PATH variable in Linux](https://www.google.com/search?q=How+do+I+change+the+PATH+variable+in+Linux)
+* 2012/11/15 - v0.1.0 - Initial release.
 
 ## License
-Copyright (c) 2012 Matt Hernandez
-Licensed under the MIT, GPL licenses.
+Copyright (c) 2013 Matt Hernandez
+
+Permission is hereby granted, free of charge, to any person
+obtaining a copy of this software and associated documentation
+files (the "Software"), to deal in the Software without
+restriction, including without limitation the rights to use,
+copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the
+Software is furnished to do so, subject to the following
+conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
