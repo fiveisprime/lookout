@@ -11,18 +11,15 @@ Download the [production version][min] or the [development version][max].
 In your web page:
 
 ```js
-<script src="dist/lookout.min.js"></script>
-<script>
-  var something = { name: 'something' };
-  
-  // Watch the object's properties using lookout.
-  lookout(something, function() {
-    console.log('Something just changed');
-  });
-  
-  // Unwatch the object's properties using disregard.
-  disregard(something);
-</script>
+var something = { name: 'something' };
+
+// Watch the object's properties using lookout.
+lookout(something, function() {
+  console.log('Something just changed');
+});
+
+// Unwatch the object's properties using disregard.
+disregard(something);
 ```
 
 ## Examples
@@ -30,28 +27,24 @@ Lookout allows you to subscribe to change notifications on an object for things 
 object that changed:
 
 ```js
-<script>
-  var myObject = { id: 100, name: 'my object' };
-  
-  lookout(myObject, 'name', function() {
-    // this is the object that just changed.
-    if (this.name.length === 0) {
-      alert('Invalid name value!');
-    }
-  });
-</script>
+var myObject = { id: 100, name: 'my object' };
+
+lookout(myObject, 'name', function() {
+  // this is the object that just changed.
+  if (this.name.length === 0) {
+    alert('Invalid name value!');
+  }
+});
 ```
 
 The change function also passes the name of the property that changed, the old value, and the new value:
 
 ```js
-<script>
-  var myObject = { id: 100, name: 'my object' };
-  
-  lookout(myObject, function(prop, oldValue, newValue) {
-    console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
-  });
-</script>
+var myObject = { id: 100, name: 'my object' };
+
+lookout(myObject, function(prop, oldValue, newValue) {
+  console.log(prop + ' just changed from [' + oldValue + '] to [' + newValue + ']');
+});
 ```
 
 ## Release History
