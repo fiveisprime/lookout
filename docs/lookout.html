@@ -52,10 +52,11 @@ This function creates a property with get and set functions which
    fire the callback function when the set function is called
    making it possible to alert the caller that some property of the
    object has changed.</p>
+<p>Called from <code>window.lookout</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> watch = <span class="function"><span class="keyword">function</span> <span class="title">watch</span><span class="params">(obj, prop, callback)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> watch = <span class="keyword">function</span>(obj, prop, callback) {
     <span class="keyword">var</span> oldValue = obj[prop]
       , currentValue = oldValue
       , getter = <span class="keyword">function</span>() { <span class="keyword">return</span> currentValue; }
@@ -79,6 +80,8 @@ This function creates a property with get and set functions which
               <p>Attempt to delete the property. If this fails, the configurable
    flag is set to false which means that any changes to the property
    will throw a TypeError.</p>
+<p>Note that this means that older versions of Internet Explorer (IE6 and
+   IE7) will not work.</p>
 
             </div>
             
@@ -138,10 +141,11 @@ This function creates a property with get and set functions which
               </div>
               <p>Removes the getter and setter functions of the specified property
    from the specified object and rewrites the value to the object.</p>
+<p>Publicly accessible through <code>window.disregard</code>.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> unwatch = <span class="function"><span class="keyword">function</span> <span class="title">unwatch</span><span class="params">(obj, prop)</span> {</span>
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> unwatch = <span class="keyword">function</span>(obj, prop) {
     <span class="keyword">var</span> value = obj[prop];</pre></div></div>
             
         </li>
@@ -153,8 +157,8 @@ This function creates a property with get and set functions which
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Delete the property that has the get/set functions specified
-   then add the property back using the original value.</p>
+              <p>Delete the defined property then add the property back using the
+   original value.</p>
 
             </div>
             
@@ -179,11 +183,28 @@ Pass an object and callback function to watch all properties of an
    only a single property or an object, an array of property names,
    and a callback function to watch several specific properties for
    changes.</p>
+<p>Accepts an object with a callback; an object, string property name to watch
+   and a callback; or object, array of property names to watch and a
+   callback.</p>
+<h3>Usage</h3>
+<pre><code>window.lookout(obj, [properties,] callback);
+
+var obj = { name: &#39;name&#39; };
+lookout(obj, function() {
+  console.log(&#39;object updated&#39;);
+});
+
+lookout(obj, &#39;name&#39;, function() {
+  console.log(&#39;object name changed to&#39;, this.name);
+});</code></pre>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>  window.lookout = <span class="keyword">function</span>(obj, props, fn) {
-    <span class="keyword">var</span> prop = <span class="literal">null</span>;
+    <span class="keyword">if</span> (!obj) <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'You must specify an object to watch.'</span>);
+    <span class="keyword">if</span> (!props) <span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">'You must specify an object to watch and a callback.'</span>);
+
+    <span class="keyword">var</span> prop = <span class="literal">null</span>, i;
 
     <span class="keyword">if</span> (<span class="keyword">typeof</span> props === <span class="string">'function'</span>) {
       <span class="keyword">for</span> (prop <span class="keyword">in</span> obj) {
@@ -194,7 +215,7 @@ Pass an object and callback function to watch all properties of an
     } <span class="keyword">else</span> {
       <span class="keyword">if</span> (<span class="keyword">typeof</span> props === <span class="string">'string'</span>) props = [props];
 
-      <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; (prop = props[i]); i++) {
+      <span class="keyword">for</span> (i = <span class="number">0</span>; (prop = props[i]); i++) {
         obj[prop] &amp;&amp; watch(obj, prop, fn);
       }
     }
@@ -212,6 +233,17 @@ Pass an object and callback function to watch all properties of an
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>Remove the property change subscriptions that have been set using lookout.</p>
+<h3>Usage</h3>
+<pre><code>var obj = { name: &#39;foo&#39; };
+
+window.lookout(obj, function() {
+  // This callback will not be called in this example.
+});
+
+// Stop watching the object for changes.
+window.disregard(obj);
+
+obj.name = &#39;bar&#39;;</code></pre>
 
             </div>
             
@@ -230,7 +262,7 @@ Pass an object and callback function to watch all properties of an
     <span class="keyword">return</span> <span class="keyword">this</span>;
   };
 
-}(<span class="keyword">typeof</span> window === <span class="string">'undefined'</span> ? module.exports : window);</pre></div></div>
+}(<span class="keyword">typeof</span> window !== <span class="string">'undefined'</span> ? window : module.exports);</pre></div></div>
             
         </li>
         

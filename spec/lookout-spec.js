@@ -2,54 +2,75 @@ var window = window || require('../src/lookout');
 
 describe('lookout', function() {
 
-  it('should should be available', function() {
-    expect(window.lookout).toBeDefined();
-    expect(window.disregard).toBeDefined();
+  describe('availability', function() {
 
-    expect(typeof window.lookout).toEqual('function');
-    expect(typeof window.disregard).toEqual('function');
+    it('should be available in global scope', function() {
+      expect(window.lookout).toBeDefined();
+      expect(window.disregard).toBeDefined();
+
+      expect(typeof window.lookout).toEqual('function');
+      expect(typeof window.disregard).toEqual('function');
+    });
+
   });
 
-  it('should watch an object', function() {
-    var obj = { name: 'foo', fn: function() {} };
-    spyOn(obj, 'fn');
+  describe('watching', function() {
 
-    window.lookout(obj, obj.fn);
-    obj.name = 'bar';
+    it('should watch an object', function() {
+      var obj = { name: 'foo', fn: function() {} };
+      spyOn(obj, 'fn');
 
-    expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
-  });
+      window.lookout(obj, obj.fn);
+      obj.name = 'bar';
 
-  it('should watch specific properties of an object', function() {
-    var obj = { name: 'foo', fn: function() {} };
-    spyOn(obj, 'fn');
+      expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
+    });
 
-    window.lookout(obj, 'name', obj.fn);
-    obj.name = 'bar';
+    it('should watch specific properties of an object', function() {
+      var obj = { name: 'foo', fn: function() {} };
+      spyOn(obj, 'fn');
 
-    expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
-  });
+      window.lookout(obj, 'name', obj.fn);
+      obj.name = 'bar';
 
-  it('should watch specific properties of an object using an array', function() {
-    var obj = { name: 'foo', fn: function() {} };
-    spyOn(obj, 'fn');
+      expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
+    });
 
-    window.lookout(obj, ['name'], obj.fn);
-    obj.name = 'bar';
+    it('should watch specific properties of an object using an array', function() {
+      var obj = { name: 'foo', fn: function() {} };
+      spyOn(obj, 'fn');
 
-    expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
-  });
+      window.lookout(obj, ['name'], obj.fn);
+      obj.name = 'bar';
 
-  it('should disregard a watched property', function() {
-    var obj = { name: 'foo', fn: function() {} };
-    spyOn(obj, 'fn');
+      expect(obj.fn).wasCalledWith('name', 'foo', 'bar');
+    });
 
-    window.lookout(obj, 'name', obj.fn);
-    window.disregard(obj);
+    it('should disregard all watched properties', function() {
+      var obj = { name: 'foo', fn: function() {} };
+      spyOn(obj, 'fn');
 
-    obj.name = 'bar';
+      window.lookout(obj, 'name', obj.fn);
+      window.disregard(obj);
 
-    expect(obj.fn).wasNotCalled();
+      obj.name = 'bar';
+
+      expect(obj.fn).wasNotCalled();
+    });
+
+    it('should correctly scope `this` on callback', function() {
+      var obj = { name: 'foo' }
+        , testScope = null;
+
+      window.lookout(obj, 'name', function() {
+        testScope = this;
+      });
+
+      obj.name = 'test';
+
+      expect(testScope).toEqual(obj);
+    });
+
   });
 
 });

@@ -16,6 +16,8 @@
   //    making it possible to alert the caller that some property of the
   //    object has changed.
   //
+  // Called from `window.lookout`.
+  //
   var watch = function(obj, prop, callback) {
     var oldValue = obj[prop]
       , currentValue = oldValue
@@ -32,6 +34,9 @@
     // Attempt to delete the property. If this fails, the configurable
     //    flag is set to false which means that any changes to the property
     //    will throw a TypeError.
+    //
+    // Note that this means that older versions of Internet Explorer (IE6 and
+    //    IE7) will not work.
     //
     if (delete obj[prop]) {
       if (Object.defineProperty) {
@@ -56,12 +61,14 @@
   // Removes the getter and setter functions of the specified property
   //    from the specified object and rewrites the value to the object.
   //
+  // Publicly accessible through `window.disregard`.
+  //
   var unwatch = function(obj, prop) {
     var value = obj[prop];
 
     //
-    // Delete the property that has the get/set functions specified
-    //    then add the property back using the original value.
+    // Delete the defined property then add the property back using the
+    //    original value.
     //
     delete obj[prop];
     obj[prop] = value;
@@ -76,6 +83,23 @@
   //    only a single property or an object, an array of property names,
   //    and a callback function to watch several specific properties for
   //    changes.
+  //
+  // Accepts an object with a callback; an object, string property name to watch
+  //    and a callback; or object, array of property names to watch and a
+  //    callback.
+  //
+  // ### Usage
+  //
+  //     window.lookout(obj, [properties,] callback);
+  //
+  //     var obj = { name: 'name' };
+  //     lookout(obj, function() {
+  //       console.log('object updated');
+  //     });
+  //
+  //     lookout(obj, 'name', function() {
+  //       console.log('object name changed to', this.name);
+  //     });
   //
   window.lookout = function(obj, props, fn) {
     if (!obj) throw new Error('You must specify an object to watch.');
@@ -103,6 +127,19 @@
   //
   // Remove the property change subscriptions that have been set using lookout.
   //
+  // ### Usage
+  //
+  //     var obj = { name: 'foo' };
+  //
+  //     window.lookout(obj, function() {
+  //       // This callback will not be called in this example.
+  //     });
+  //
+  //     // Stop watching the object for changes.
+  //     window.disregard(obj);
+  //
+  //     obj.name = 'bar';
+  //
   window.disregard = function(obj) {
     if (obj) {
       for (var prop in obj) {
@@ -118,4 +155,4 @@
     return this;
   };
 
-}(typeof window === 'undefined' ? module.exports : window);
+}(typeof window !== 'undefined' ? window : module.exports);
