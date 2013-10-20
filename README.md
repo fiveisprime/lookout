@@ -4,7 +4,7 @@ Create subscriptions for object property changes.
 
 ## Getting Started
 Download the [production version][min] or the [development version][max] or
-install using [bower](http://bower.io).
+install using [bower](http://bower.io): `bower install lookout`.
 
 [min]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.min.js
 [max]: https://raw.github.com/fiveisprime/lookout/master/src/lookout.js

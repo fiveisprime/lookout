@@ -15,10 +15,18 @@ describe('lookout', function() {
   });
 
   describe('watching', function() {
+    var obj;
+
+    beforeEach(function() {
+      obj = {
+        name: 'foo'
+      , fn: function() {}
+      };
+
+      spyOn(obj, 'fn');
+    });
 
     it('should watch an object', function() {
-      var obj = { name: 'foo', fn: function() {} };
-      spyOn(obj, 'fn');
 
       window.lookout(obj, obj.fn);
       obj.name = 'bar';
@@ -27,8 +35,6 @@ describe('lookout', function() {
     });
 
     it('should watch specific properties of an object', function() {
-      var obj = { name: 'foo', fn: function() {} };
-      spyOn(obj, 'fn');
 
       window.lookout(obj, 'name', obj.fn);
       obj.name = 'bar';
@@ -37,8 +43,6 @@ describe('lookout', function() {
     });
 
     it('should watch specific properties of an object using an array', function() {
-      var obj = { name: 'foo', fn: function() {} };
-      spyOn(obj, 'fn');
 
       window.lookout(obj, ['name'], obj.fn);
       obj.name = 'bar';
@@ -47,8 +51,6 @@ describe('lookout', function() {
     });
 
     it('should disregard all watched properties', function() {
-      var obj = { name: 'foo', fn: function() {} };
-      spyOn(obj, 'fn');
 
       window.lookout(obj, 'name', obj.fn);
       window.disregard(obj);
@@ -59,16 +61,16 @@ describe('lookout', function() {
     });
 
     it('should correctly scope `this` on callback', function() {
-      var obj = { name: 'foo' }
+      var scope = { name: 'foo' }
         , testScope = null;
 
-      window.lookout(obj, 'name', function() {
+      window.lookout(scope, 'name', function() {
         testScope = this;
       });
 
-      obj.name = 'test';
+      scope.name = 'test';
 
-      expect(testScope).toEqual(obj);
+      expect(testScope).toEqual(scope);
     });
 
   });
