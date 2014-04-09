@@ -1,4 +1,4 @@
-# Lookout [![Build Status](https://secure.travis-ci.org/fiveisprime/lookout.png?branch=master)](https://travis-ci.org/fiveisprime/lookout)
+# Lookout [![Build Status](https://secure.travis-ci.org/fiveisprime/lookout.svg?branch=master)](https://travis-ci.org/fiveisprime/lookout)
 
 Create subscriptions for object property changes.
 
