@@ -60,7 +60,7 @@ lookout(myObject, function(prop, oldValue, newValue) {
 * 2012/11/15 - v0.1.0 - Initial release.
 
 ## License
-Copyright (c) 2013 Matt Hernandez
+Copyright (c) 2014 Matt Hernandez
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
